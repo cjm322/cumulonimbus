@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Home from './components/Home';
+import { Layout } from 'antd';
+import 'antd/dist/antd.css';
+
+const {
+  Header, Content, Footer, Sider,
+} = Layout;
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Layout>
+          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+            <div style={{ padding: 24, background: '#fff', textAlign: 'left' }}>
+              <Home />
+            </div>
+          </Content>
+        </Layout>
       </div>
     );
   }

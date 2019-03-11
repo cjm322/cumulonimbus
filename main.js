@@ -1,8 +1,11 @@
 // Basic init
 const electron = require('electron')
-const {app, BrowserWindow} = electron
+const {app, BrowserWindow, ipcMain} = electron
 const path = require('path');
 const url = require('url');
+const keytar = require('keytar');
+const Cloudant = require('@cloudant/cloudant');
+let CREDENTIALS = {};
 
 // Let electron reloads by itself when webpack watches changes in ./app/
 if (process.env.ELECTRON_START_URL) {
@@ -49,3 +52,62 @@ app.on('activate', function () {
         createWindow()
     }
 });
+
+ipcMain.on('findCredentials', async(event, service) => {
+    const [credentials] = await keytar.findCredentials(service)
+    if(credentials) {
+        const { account, password } = credentials;
+        event.sender.send('foundCredentials', {
+            userName: account,
+            password
+        });
+    } else {
+        event.sender.send('foundCredentials', null)
+    }
+});
+
+ipcMain.on('setPassword', async(event, props) => {
+    const { service, account, password } = props;
+    keytar.setPassword(service, account, password);
+});
+
+ipcMain.on('login', (event, credentials) => {
+    Cloudant(credentials, async(err, cloudant, pong) => {
+        if(err) {
+            console.log(err);
+            event.sender.send('loggedIn', err);
+        } else {
+            const databases = await cloudant.db.list();
+            CREDENTIALS = { ...credentials };
+            event.sender.send('loggedIn', { databases, ...credentials });
+        }
+    })
+})
+
+ipcMain.on('fetchDocuments', (event, db) => {
+    Cloudant(CREDENTIALS, async(err, cloudant) => {
+        if(err) {
+            event.sender.send('cloudantError', err.message)
+        } else {
+            cloudant.use(db).list().then(response => {
+                console.log(response.rows[0])
+                event.sender.send('documentsFetched', response.rows);
+            })
+        }
+    })
+})
+
+ipcMain.on('fetchDocument', (event, props) => {
+    const { database, id } = props;
+    Cloudant(CREDENTIALS, async(err, cloudant) => {
+        if(err) {
+            console.log('Err getting doc')
+            event.sender.send('cloudantError', err.message)
+        } else {
+            cloudant.use(database).get(id).then(document => {
+                console.log('Fetched doc')
+                event.sender.send('documentFetched', document);
+            })
+        }
+    })
+})

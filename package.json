@@ -32,6 +32,10 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@cloudant/cloudant": "^3.0.2",
+    "antd": "^3.15.0",
+    "babel-polyfill": "^6.26.0",
+    "keytar": "^4.4.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
   },
