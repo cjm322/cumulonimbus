@@ -4,8 +4,8 @@ A minimal Electron + React.js boilerplate with [parcel as bundler](https://githu
 
 ## Installation
 
-* `git@github.com:Snjoo/parcel-react-electron.git`
-* `cd parcel-react-electron`
+* `git@github.com:cjm322/cumulonimbus.git`
+* `cd cumulonimbus`
 * `yarn`
 
 ## Usage
