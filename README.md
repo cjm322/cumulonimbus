@@ -1,11 +1,11 @@
-# Cumulonimbus
+# Stormant
 
 Minimal Cloudant desktop GUI built on Electron
 
 ## Installation
 
-* `git@github.com:cjm322/cumulonimbus.git`
-* `cd cumulonimbus`
+* `git@github.com:cjm322/stormant.git`
+* `cd stormant`
 * `yarn`
 
 ## Usage
