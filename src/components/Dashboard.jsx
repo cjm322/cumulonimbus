@@ -3,6 +3,7 @@ import {
   Layout, Menu, Breadcrumb, Icon,
 } from 'antd';
 import { Card, Alert, Spin } from 'antd';
+import DocumentsTable from './DocumentsTable';
 import Cloudant from '@cloudant/cloudant';
 import 'antd/dist/antd.css';
 const electron = window.require('electron');
@@ -75,26 +76,15 @@ class Dashboard extends Component {
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['database']}
             style={{ height: '100%', borderRight: 0 }}
-            openKeys={this.state.openKeys}
-            onOpenChange={this.onOpenChange.bind(this)}
           >
             <SubMenu key="database" title={<span><Icon type="database" />Databases</span>}>
               {this.props.databases.map(database => (
-                <SubMenu
+                <Menu.Item
                   key={database}
-                  title={database}
+                  onClick={()=> this.setDatabase(database)}
                 >
-                  {this.state.documents.map(document => (
-                    <Menu.Item
-                      key={document.id}
-                      onClick={() => {
-                        this.fetchDocument(document.id);
-                      }}
-                    >
-                    {document.id}
-                  </Menu.Item>
-                  ))}
-                </SubMenu>
+                {database}
+                </Menu.Item>
               ))}
             </SubMenu>
           </Menu>
@@ -106,10 +96,10 @@ class Dashboard extends Component {
               <Breadcrumb.Item>{this.state.database}</Breadcrumb.Item>
             </Breadcrumb>
             <Content style={{
-              background: '#fff', padding: 24, margin: 0, minHeight: 280,
+              background: '#fff', padding: 24, margin: 0, minHeight: 280, width: '100%'
             }}
             >
-              {JSON.stringify(this.state.document)}
+              <DocumentsTable data={this.state.documents}/>
             </Content>
           </Layout>
         </Spin>

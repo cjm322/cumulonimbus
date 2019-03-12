@@ -1,7 +1,7 @@
 {
-  "name": "parcel-reactjs-electron",
+  "name": "stormant",
   "version": "1.1.0",
-  "description": "A minimal React.js boilerplate with parcel as bundler",
+  "description": "Minimal Cloudant desktop GUI built on Electron with React",
   "main": "main.js",
   "scripts": {
     "dev": "parcel ./src/index.html -d build/",
@@ -13,7 +13,7 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "build": {
-    "appId": "parcel.reactjs.electron",
+    "appId": "Stormant",
     "mac": {
       "category": "your.app.category.type"
     },
