@@ -34,7 +34,7 @@ class DocumentsTable extends Component {
           key="action"
           render={(text, record) => (
             <span>
-              <a href="javascript:;">Invite </a>
+              <a href="javascript:;">Edit </a>
               <Divider type="vertical" />
               <a href="javascript:;">Delete</a>
             </span>
